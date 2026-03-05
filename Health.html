@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mijn Plan — Politie-inspecteur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --blue: #1b4f8a;
+    --accent: #e8c547;
+    --soft: #f0f4f8;
+    --muted: #7a8fa6;
+    --danger: #e05c5c;
+    --green: #4caf87;
+    --card: #152535;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--soft);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 60px 24px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(27,79,138,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(232,197,71,0.15);
+    border: 1px solid rgba(232,197,71,0.4);
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 96px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: white;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 32px 0 0;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--soft); }
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 20px; }
+  .card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #c8d8e8;
+  }
+  .card p + p { margin-top: 10px; }
+
+  /* LISTS */
+  .list { list-style: none; margin-top: 12px; }
+  .list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: #c8d8e8;
+    display: flex;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .list li:last-child { border-bottom: none; }
+  .list li .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  /* WEEK SCHEDULE */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .day-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .day-card.rest { opacity: 0.5; }
+  .day-card.active-day { border-color: var(--accent); }
+  .day-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .day-type {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--soft);
+  }
+  .day-emoji { font-size: 18px; margin-bottom: 4px; }
+
+  /* WORKOUT BLOCK */
+  .workout-block {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin: 10px 0;
+  }
+  .workout-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .workout-detail {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* MEAL CARD */
+  .meal {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 8px 0;
+  }
+  .meal-time {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .meal-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .meal-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* PROGRESS TRACKER */
+  .progress-area {
+    text-align: center;
+  }
+  .big-stat {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .check-list { margin-top: 16px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    user-select: none;
+  }
+  .check-item:hover { background: rgba(255,255,255,0.07); }
+  .check-item.checked {
+    background: rgba(76,175,135,0.1);
+    border-color: rgba(76,175,135,0.3);
+  }
+  .check-box {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .check-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .check-text {
+    font-size: 14px;
+    color: #c8d8e8;
+    flex: 1;
+  }
+
+  /* PCOS INFO */
+  .pcos-tag {
+    display: inline-block;
+    background: rgba(232,197,71,0.12);
+    border: 1px solid rgba(232,197,71,0.3);
+    color: var(--accent);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* MOTIVATION */
+  .quote-block {
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    background: rgba(232,197,71,0.06);
+    border-radius: 0 12px 12px 0;
+    margin: 16px 0;
+  }
+  .quote-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* POLICE FITNESS BAR */
+  .fitness-goal {
+    margin: 20px 0;
+  }
+  .goal-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--accent));
+    transition: width 1s ease;
+  }
+
+  /* FOOTER RULE */
+  .rule {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 16px 0;
+  }
+
+  .highlight { color: var(--accent); font-weight: 600; }
+  .green { color: var(--green); }
+  .red { color: var(--danger); }
+
+  /* WEEK SELECTOR */
+  .week-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .week-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .week-btn.active {
+    background: rgba(27,79,138,0.4);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: white;
+    margin: 20px 0 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Jouw persoonlijk plan</div>
+  <h1>KLAAR VOOR<br><span>DE POLITIE</span></h1>
+  <p>20 jaar · Student · PCOS · Bewakingsagent<br>Dit is jouw plan — realistisch, gratis, en gemaakt om vol te houden.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('mindset')">💭 Mindset</button>
+  <button class="tab" onclick="show('beweging')">🏃 Beweging</button>
+  <button class="tab" onclick="show('eten')">🥗 Eten</button>
+  <button class="tab" onclick="show('pcos')">🩺 PCOS</button>
+  <button class="tab" onclick="show('dagcheck')">✅ Dagcheck</button>
+  <button class="tab" onclick="show('politie')">👮 Politie</button>
+</div>
+
+<div class="content">
+
+  <!-- MINDSET -->
+  <div id="mindset" class="section active">
+    <div class="card">
+      <div class="card-title"><span class="icon">💬</span> Waarom je altijd opgaf</div>
+      <p>Je gaf niet op omdat je zwak bent. Je gaf op omdat je elk keer <span class="highlight">alles in één keer</span> probeerde te veranderen. Dieet + sport + motivatie tegelijk = te veel. Je brein kiest dan voor de makkelijkste weg.</p>
+      <p>Deze keer doen we het anders: <span class="highlight">één kleine gewoonte per week</span>. Zo klein dat je bijna niet kunt falen.</p>
+    </div>
+
+    <div class="quote-block">
+      <div class="quote-text">"Je hoeft vandaag niet perfect te zijn. Je moet alleen iets doen dat je gisteren niet deed."</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🎯</span> De regels van dit plan</div>
+      <ul class="list">
+        <li><span class="dot"></span>Geen perfectie. Een slechte dag is geen fout — stoppen is de enige fout.</li>
+        <li><span class="dot"></span>Geen weegschaal de eerste maand. Energie en conditie tellen eerst.</li>
+        <li><span class="dot"></span>Je werkt toe naar één doel: de politieproef halen. Dat is concreter dan "slank worden".</li>
+        <li><span class="dot"></span>20 minuten bewegen is beter dan 0 minuten. Altijd.</li>
+        <li><span class="dot"></span>PCOS betekent dat het trager gaat dan voor anderen. Dat is geen excuus om te stoppen — het is een reden om consistenter te zijn.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🔥</span> Opbouwen per maand</div>
+      <ul class="list">
+        <li><span class="dot"></span><span class="highlight">Maand 1:</span> Elke dag 15 min wandelen + 1 maaltijd beter maken. Niets meer.</li>
+        <li><span class="dot"></span><span class="highlight">Maand 2:</span> Wandelen wordt 30 min + 3x/week thuis oefeningen (10 min).</li>
+        <li><span class="dot"></span><span class="highlight">Maand 3:</span> Echte workouts van 30 min + maaltijden structuur geven.</li>
+        <li><span class="dot"></span><span class="highlight">Maand 4-6:</span> Interval lopen + krachtoefeningen + politie-specifieke training.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🧠</span> Als je het wil opgeven</div>
+      <p>Doe dit: open dit plan, ga naar de "Politie" tab, en lees wat je nodig hebt om te slagen. Dan zet je je schoenen aan en ga je 10 minuten buiten. Alleen dat. Daarna mag je beslissen.</p>
+      <p style="margin-top:10px; color: var(--accent);">Rug- en nekpijn bij 20 jaar? Dat is een alarmsignaal van je lichaam. Elke stap die je zet is ook pijnbestrijding.</p>
+    </div>
+  </div>
+
+  <!-- BEWEGING -->
+  <div id="beweging" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> Weekschema (Maand 1-2)</div>
+      <div class="week-grid">
+        <div class="day-card active-day">
+          <div class="day-label">Ma</div>
+          <div class="day-emoji">🚶</div>
+          <div class="day-type">Wandel</div>
+        </div>
+        <div class="day-card rest">
+          <div class="day-label">Di</div>
+          <div class="day-emoji">😴</div>
+          <div class="day-type">Rust</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-label">Wo</div>
+          <div class="day-emoji">💪</div>
+          <div class="day-type">Thuis</div>
+        </div>
+        <div class="day-card rest">
+          <div class="day-label">Do</div>
+          <div class="day-emoji">🚶</div>
+          <div class="day-type">Licht</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-label">Vr</div>
+          <div class="day-emoji">💪</div>
+          <div class="day-type">Thuis</div>
+        </div>
+        <div class="day-card rest">
+          <div class="day-label">Za</div>
+          <div class="day-emoji">🚶</div>
+          <div class="day-type">Wandel</div>
+        </div>
+        <div class="day-card rest">
+          <div class="day-label">Zo</div>
+          <div class="day-emoji">😴</div>
+          <div class="day-type">Rust</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-selector">
+      <button class="week-btn active" onclick="showWorkout('w1', this)">Maand 1</button>
+      <button class="week-btn" onclick="showWorkout('w2', this)">Maand 2</button>
+      <button class="week-btn" onclick="showWorkout('w3', this)">Maand 3</button>
+      <button class="week-btn" onclick="showWorkout('w4', this)">Maand 4+</button>
+    </div>
+
+    <div id="w1">
+      <h3>Maand 1 — Gewoon beginnen</h3>
+      <div class="workout-block">
+        <div class="workout-name">🚶 Dagelijkse wandeling</div>
+        <div class="workout-detail">15–20 min. Stevig tempo, niet slenteren. Buiten, frisse lucht. Geen excuses.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💪 Thuisworkout (2x/week, 10 min)</div>
+        <div class="workout-detail">10x kniebukking (handen voor je) · 10x wall push-up · 20 sec plank · Herhaal 2x. Klaar.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Nek & rug (elke dag, 5 min)</div>
+        <div class="workout-detail">Kinborst stretch · Schouder rollen · Kat-koe beweging op de grond. Dit verlicht je pijn EN versterkt de spieren.</div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-title" style="font-size:16px">⚠️ Belangrijk voor rug/nek</div>
+        <p>Jouw rugpijn komt deels door houding en deels door het gewicht op je gewrichten. De wandelingen en de dagelijkse stretchoefeningen zijn <span class="highlight">geen optie</span> — ze zijn medicijn. Na 3-4 weken merk je al verschil.</p>
+      </div>
+    </div>
+
+    <div id="w2" style="display:none">
+      <h3>Maand 2 — Opbouwen</h3>
+      <div class="workout-block">
+        <div class="workout-name">🚶 Wandeling uitbreiden</div>
+        <div class="workout-detail">30 min. Of 2x 15 min als dat makkelijker is rond je kotleven.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💪 Thuisworkout (3x/week, 20 min)</div>
+        <div class="workout-detail">15x squat · 10x push-up (knieën ok) · 20x hip bridge · 30 sec plank · 20x zijwaartse stap · Herhaal 3x.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🏃 Begin met interval</div>
+        <div class="workout-detail">1 min stappen, 30 sec iets sneller. Herhaal 8x. Dit traint je hart zonder je gewrichten te overbelasten.</div>
+      </div>
+    </div>
+
+    <div id="w3" style="display:none">
+      <h3>Maand 3 — Echte training</h3>
+      <div class="workout-block">
+        <div class="workout-name">🏃 Interval lopen (3x/week)</div>
+        <div class="workout-detail">Warm-up 5 min wandelen · Wissel 1 min joggen / 2 min wandelen · 20-25 min totaal · Cool-down 5 min.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💪 Kracht (2x/week)</div>
+        <div class="workout-detail">Squat 3x15 · Push-up 3x10 · Plank 3x40sec · Hip bridge 3x15 · Mountain climber 3x20 · Lunges 3x10.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Mobiliteit (dagelijks, 7 min)</div>
+        <div class="workout-detail">Heupflexor stretch · Thoracale rotatie · Nekspierversterkende oefeningen. Cruciaal bij PCOS voor stressregulatie.</div>
+      </div>
+    </div>
+
+    <div id="w4" style="display:none">
+      <h3>Maand 4+ — Politieklaar worden</h3>
+      <div class="workout-block">
+        <div class="workout-name">🏃 Continu lopen (3x/week)</div>
+        <div class="workout-detail">Doel: 12 min/km → 8 min/km. Start waar je bent. Elke week 30 sec sneller proberen.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💪 Volledige kracht (3x/week)</div>
+        <div class="workout-detail">Burpees · Pull-up progressie (handdoek-row) · Box squat · Push-up progressie · Core circuit.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🎯 Politie-specifiek</div>
+        <div class="workout-detail">Shuttle run oefening · Sprinten korte afstand · Hinderniscircuit nabootsen. Zie "Politie" tab voor exacte normen.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ETEN -->
+  <div id="eten" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">🎯</span> De basis — geen dieet</div>
+      <p>Geen calorie tellen. Geen verboden voedsel. Alleen deze <span class="highlight">3 regels</span>:</p>
+      <ul class="list">
+        <li><span class="dot"></span><span class="highlight">Meer eiwit.</span> Bij elke maaltijd iets met proteïne (ei, yoghurt, linzen, tonijn, kwark). Dit helpt bij PCOS én verzadigt langer.</li>
+        <li><span class="dot"></span><span class="highlight">Minder suiker en wit brood.</span> Niet verboden, maar minder. Vervang door havermout, volkoren, groenten.</li>
+        <li><span class="dot"></span><span class="highlight">Water ipv frisdrank.</span> 1,5-2L per dag. Koffie en thee tellen mee.</li>
+      </ul>
+    </div>
+
+    <h3>Maaltijden op kot — budget & snel</h3>
+
+    <div class="meal">
+      <div class="meal-time">Ontbijt</div>
+      <div class="meal-name">Havermout met fruit</div>
+      <div class="meal-desc">60g havervlokken + water of melk + banaan of bevroren fruit. Klaar in 5 min. Goedkoop. Houdt je uren vol. Alternatief: 2 eieren + sneetje volkoren.</div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-time">Lunch</div>
+      <div class="meal-name">Brooddoos voor onderweg</div>
+      <div class="meal-desc">Volkoren boterham + ei/tonijn/kaas + stuk fruit. Als bewakingsagent heb je dit nodig. Vermijd croissants en witte boterhammen als je het kan.</div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-time">Avondeten</div>
+      <div class="meal-name">Snelle pot-maaltijden</div>
+      <div class="meal-desc">Pasta met tonijn uit blik + groenten uit pot (goedkoop!) · Eieren met rijst en sojasaus · Linzensoep met brood · Wraps met kip/ei · Roerei met groenten. Alles max 15 min.</div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-time">Snacks</div>
+      <div class="meal-name">Handige opties</div>
+      <div class="meal-desc">Kwark · Banaan · Rijstwafels + pindakaas · Handvol noten · Gekookt ei. Vermijd chips en koeken niet volledig — dat werkt niet. Eet ze minder.</div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-title"><span class="icon">💶</span> Budget eten als student</div>
+      <ul class="list">
+        <li><span class="dot"></span>Havervlokken, rijst, pasta, linzen uit blik = goedkoopste voeding met meeste voeding.</li>
+        <li><span class="dot"></span>Eieren = goedkoopste eiwitbron. 10 eieren ≈ €2. Elke dag 2 eieren = 10 cent per portie eiwit.</li>
+        <li><span class="dot"></span>Bevroren groenten zijn net zo gezond als verse en kosten de helft.</li>
+        <li><span class="dot"></span>Tonijn uit blik, kidneybonen, kikkererwten = goedkoop en voedzaam.</li>
+        <li><span class="dot"></span>Kook 1x per week een grote pot (soep, rijst + groenten) en eet dit 3 dagen. Bespaart tijd én geld.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🚫</span> Wat je zoveel mogelijk vermijdt</div>
+      <p>Bij PCOS reageert je lichaam anders op suiker. Probeer te minderen (niet stoppen) met: gesuikerde dranken, witte pasta/brood in grote hoeveelheden, snoep en chocolade als dagelijkse gewoonte, fastfood meer dan 1x per week.</p>
+      <p style="margin-top:10px"><span class="highlight">Maar: één slechte dag = geen catastrofe.</span> Morgen gewoon verder. Geen straf, geen "opnieuw beginnen".</p>
+    </div>
+  </div>
+
+  <!-- PCOS -->
+  <div id="pcos" class="section">
+    <div class="card">
+      <div class="pcos-tag">PCOS — Polycysteus Ovarium Syndroom</div>
+      <div class="card-title"><span class="icon">🩺</span> Waarom het moeilijker is voor jou</div>
+      <p>Met PCOS heeft je lichaam insulineresistentie en hogere androgeenspiegels. Dit betekent dat je <span class="highlight">tot 3x moeilijker gewicht verliest</span> dan iemand zonder PCOS, bij exact hetzelfde dieet en sport. Dit is geen excuus — het is biologie. En het betekent dat je de goede aanpak nodig hebt.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> Wat WEL werkt bij PCOS</div>
+      <ul class="list">
+        <li><span class="dot"></span><span class="highlight">Krachttraining</span> is beter dan alleen cardio. Spieren verbeteren insulinegevoeligheid. Squat, plank, push-up: jouw beste vrienden.</li>
+        <li><span class="dot"></span><span class="highlight">Minder snelle suikers.</span> Wit brood, frisdrank, snoep → verergeren PCOS. Overstap naar complexe koolhydraten (havermout, volkoren, zoete aardappel).</li>
+        <li><span class="dot"></span><span class="highlight">Slaap is behandeling.</span> Onder 7 uur slaap = slechtere insulinegevoeligheid = meer gewichtstoename bij PCOS. Prioriteit.</li>
+        <li><span class="dot"></span><span class="highlight">Stress verlagen.</span> Cortisol verergert PCOS enorm. Wandelen buiten is ook stresstherapie.</li>
+        <li><span class="dot"></span><span class="highlight">Inositol (supplement).</span> Goedkoop supplement dat bewezen helpt bij PCOS-insulineresistentie. Vraag je huisarts ernaar.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">⏱️</span> Tijdlijn bij PCOS</div>
+      <p>Reken op <span class="highlight">3-4 maanden</span> voor je duidelijke resultaten ziet op de weegschaal. Dat is normaal. Maar je zal al na 4-6 weken merken dat je energieniveau stijgt, je rug minder pijn doet en je conditie verbetert.</p>
+      <p style="margin-top:10px">Vergelijk jezelf nooit met iemand zonder PCOS. Jouw resultaat bij hetzelfde werk is gewoon kleiner — maar het is er. En het is duurzamer.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">👩‍⚕️</span> Vraag je huisarts</div>
+      <ul class="list">
+        <li><span class="dot"></span>Om je insulineresistentie te laten testen (nuchtere bloedsuiker + insuline).</li>
+        <li><span class="dot"></span>Over Metformine — een medicatie die insulinegevoeligheid verbetert en bij PCOS gewichtsverlies kan ondersteunen.</li>
+        <li><span class="dot"></span>Over Inositol (Myo-inositol) als supplement.</li>
+        <li><span class="dot"></span>Over een doorverwijzing naar een diëtiste die gespecialiseerd is in PCOS. Mutualiteit vergoedt dit vaak.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DAGCHECK -->
+  <div id="dagcheck" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> Dagelijkse gewoonten</div>
+      <p style="font-size:13px; color: var(--muted)">Klik aan wat je vandaag gedaan hebt. Reset elke dag.</p>
+    </div>
+
+    <div class="check-list">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">🚶 Bewogen vandaag (wandelen, oefeningen, ...)</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">🧘 Nek & rug stretch gedaan (5 min)</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">💧 1,5L water gedronken</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">🥚 Eiwit bij mijn ontbijt of lunch gegeten</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">🍬 Geen frisdrank vandaag</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">😴 Op tijd naar bed gegaan (voor middernacht)</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">📱 Minder dan 2u op mijn gsm voor het slapen</div>
+      </div>
+    </div>
+
+    <div id="score-area" style="text-align:center; margin-top:28px; display:none">
+      <div class="big-stat" id="score-num">0</div>
+      <div class="stat-label">van 7 gewoonten vandaag</div>
+      <div id="score-msg" style="font-size:14px; color: var(--muted); max-width: 300px; margin: 0 auto;"></div>
+    </div>
+
+    <div class="card" style="margin-top:24px">
+      <div class="card-title" style="font-size:16px">📝 Onthoud</div>
+      <p>Je hoeft niet elke dag 7/7 te halen. <span class="highlight">4/7 consistent</span> gaat je meer opleveren dan 7/7 één week en dan stoppen. Dit plan is voor het lange spel.</p>
+    </div>
+  </div>
+
+  <!-- POLITIE -->
+  <div id="politie" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">👮</span> Jouw doel: Politie-inspecteur</div>
+      <p>De fysieke proef voor de Belgische politie bestaat uit meerdere onderdelen. Als bewakingsagent heb je al een basis — nu bouw je daarop verder.</p>
+    </div>
+
+    <h3>Wat je moet kunnen (Belgische politie)</h3>
+
+    <div class="fitness-goal">
+      <div class="goal-header">
+        <span>🏃 Cooper test (12 min lopen)</span>
+        <span>Doel: min. 1600m</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 20%"></div></div>
+    </div>
+
+    <div class="fitness-goal">
+      <div class="goal-header">
+        <span>⬆️ Sit-ups (1 min)</span>
+        <span>Doel: 20+ voor vrouwen</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
+    </div>
+
+    <div class="fitness-goal">
+      <div class="goal-header">
+        <span>💪 Push-ups</span>
+        <span>Doel: 10+ vrouwen</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 25%"></div></div>
+    </div>
+
+    <div class="fitness-goal">
+      <div class="goal-header">
+        <span>🔄 Shuttle run (behendigheid)</span>
+        <span>Doel: niveau 5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 15%"></div></div>
+    </div>
+
+    <div class="card" style="margin-top:8px">
+      <div class="card-title"><span class="icon">📅</span> Tijdlijn naar de proef</div>
+      <ul class="list">
+        <li><span class="dot"></span><span class="highlight">Maand 1-2:</span> Basis opbouwen. Wandelen, thuis oefeningen, nek/rug verbeteren.</li>
+        <li><span class="dot"></span><span class="highlight">Maand 3-4:</span> Beginnen met lopen. Conditie verhogen. Eerste push-ups en sit-ups testen.</li>
+        <li><span class="dot"></span><span class="highlight">Maand 5-6:</span> Specifieke politieproef training. Normen trainen.</li>
+        <li><span class="dot"></span><span class="highlight">Maand 7+:</span> Je bent klaar voor de selectie.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">⭐</span> Jouw voordelen</div>
+      <ul class="list">
+        <li><span class="dot"></span>Je bent al bewakingsagent. Je weet wat de job inhoudt en je hebt meer geloofwaardigheid dan gemiddeld.</li>
+        <li><span class="dot"></span>Je bent 20. Je lichaam herstelt snel en past zich snel aan. Dat is een enorm voordeel.</li>
+        <li><span class="dot"></span>Je hebt motivatie met een concreet doel. Dat is de sterkste drijfveer van allemaal.</li>
+      </ul>
+    </div>
+
+    <div class="quote-block">
+      <div class="quote-text">"De politienormen zijn haalbaar voor iedereen die 6 maanden consistent traint. Inclusief jou. Inclusief PCOS. Start vandaag."</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showWorkout(id, btn) {
+    document.querySelectorAll('[id^="w"]').forEach(el => {
+      if (['w1','w2','w3','w4'].includes(el.id)) el.style.display = 'none';
+    });
+    document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  const msgs = [
+    "Begin morgen gewoon opnieuw 💪",
+    "Eén gewoonte. Goed bezig!",
+    "Twee gewoonten. Je bouwt iets op.",
+    "Drie! De helft. Trots op jou.",
+    "Vier gewoonten. Je lichaam merkt het.",
+    "Vijf! Dit is een geweldige dag.",
+    "Zes gewoonten. Bijna perfecte dag!",
+    "7/7! Ongelooflijk. Dit is hoe je de politie haalt. 🏆"
+  ];
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    const total = document.querySelectorAll('.check-item.checked').length;
+    const scoreArea = document.getElementById('score-area');
+    const scoreNum = document.getElementById('score-num');
+    const scoreMsg = document.getElementById('score-msg');
+    scoreArea.style.display = 'block';
+    scoreNum.textContent = total;
+    scoreMsg.textContent = msgs[total];
+    scoreNum.style.color = total >= 5 ? 'var(--green)' : total >= 3 ? 'var(--accent)' : 'var(--muted)';
+  }
+</script>
+
+</body>
+</html>
