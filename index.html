@@ -163,34 +163,43 @@
 
   /* WEEK SCHEDULE */
   .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-top: 14px;
   }
   .day-card {
     background: rgba(255,255,255,0.04);
     border-radius: 10px;
-    padding: 10px 6px;
-    text-align: center;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     border: 1px solid transparent;
     transition: all 0.2s;
   }
   .day-card.rest { opacity: 0.5; }
-  .day-card.active-day { border-color: var(--accent); }
+  .day-card.active-day { border-color: var(--accent); background: rgba(232,197,71,0.06); }
   .day-label {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 6px;
+    width: 26px;
+    flex-shrink: 0;
   }
   .day-type {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--soft);
+    flex: 1;
   }
-  .day-emoji { font-size: 18px; margin-bottom: 4px; }
+  .day-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .day-emoji { font-size: 20px; flex-shrink: 0; }
 
   /* WORKOUT BLOCK */
   .workout-block {
@@ -452,52 +461,17 @@
 
   <!-- BEWEGING -->
   <div id="beweging" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">📅</span> Weekschema (Maand 1-2)</div>
-      <div class="week-grid">
-        <div class="day-card active-day">
-          <div class="day-label">Ma</div>
-          <div class="day-emoji">🚶</div>
-          <div class="day-type">Wandel</div>
-        </div>
-        <div class="day-card rest">
-          <div class="day-label">Di</div>
-          <div class="day-emoji">😴</div>
-          <div class="day-type">Rust</div>
-        </div>
-        <div class="day-card active-day">
-          <div class="day-label">Wo</div>
-          <div class="day-emoji">💪</div>
-          <div class="day-type">Thuis</div>
-        </div>
-        <div class="day-card rest">
-          <div class="day-label">Do</div>
-          <div class="day-emoji">🚶</div>
-          <div class="day-type">Licht</div>
-        </div>
-        <div class="day-card active-day">
-          <div class="day-label">Vr</div>
-          <div class="day-emoji">💪</div>
-          <div class="day-type">Thuis</div>
-        </div>
-        <div class="day-card rest">
-          <div class="day-label">Za</div>
-          <div class="day-emoji">🚶</div>
-          <div class="day-type">Wandel</div>
-        </div>
-        <div class="day-card rest">
-          <div class="day-label">Zo</div>
-          <div class="day-emoji">😴</div>
-          <div class="day-type">Rust</div>
-        </div>
-      </div>
-    </div>
 
     <div class="week-selector">
       <button class="week-btn active" onclick="showWorkout('w1', this)">Maand 1</button>
       <button class="week-btn" onclick="showWorkout('w2', this)">Maand 2</button>
       <button class="week-btn" onclick="showWorkout('w3', this)">Maand 3</button>
       <button class="week-btn" onclick="showWorkout('w4', this)">Maand 4+</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> Weekschema — <span id="schema-maand">Maand 1</span></div>
+      <div class="week-grid" id="week-grid"></div>
     </div>
 
     <div id="w1">
@@ -779,6 +753,73 @@
 </div>
 
 <script>
+  const weekSchemas = {
+    w1: {
+      label: 'Maand 1',
+      days: [
+        { day: 'Ma', emoji: '🚶', type: 'Wandelen', sub: '15–20 min stevig tempo', active: true },
+        { day: 'Di', emoji: '🧘', type: 'Stretch', sub: 'Nek & rug — 5 min', active: false },
+        { day: 'Wo', emoji: '💪', type: 'Thuisworkout', sub: '10 min — squat, wall push-up, plank', active: true },
+        { day: 'Do', emoji: '🚶', type: 'Wandelen', sub: '15 min licht tempo', active: false },
+        { day: 'Vr', emoji: '💪', type: 'Thuisworkout', sub: '10 min — zelfde oefeningen', active: true },
+        { day: 'Za', emoji: '🚶', type: 'Wandelen', sub: '20 min, buiten', active: false },
+        { day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Volledig herstel', active: false },
+      ]
+    },
+    w2: {
+      label: 'Maand 2',
+      days: [
+        { day: 'Ma', emoji: '💪', type: 'Thuisworkout', sub: '20 min — squat, push-up, hip bridge, plank', active: true },
+        { day: 'Di', emoji: '🚶', type: 'Wandelen', sub: '30 min stevig', active: false },
+        { day: 'Wo', emoji: '🏃', type: 'Interval', sub: '1 min sneller / 2 min stappen — 8x', active: true },
+        { day: 'Do', emoji: '😴', type: 'Rust', sub: 'Of lichte stretch', active: false },
+        { day: 'Vr', emoji: '💪', type: 'Thuisworkout', sub: '20 min — 3 rondes', active: true },
+        { day: 'Za', emoji: '🚶', type: 'Wandelen', sub: '30 min of fietstocht', active: false },
+        { day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Volledig herstel', active: false },
+      ]
+    },
+    w3: {
+      label: 'Maand 3',
+      days: [
+        { day: 'Ma', emoji: '🏃', type: 'Interval lopen', sub: '5 min wandel + 1 min jog / 2 min wandel × 6', active: true },
+        { day: 'Di', emoji: '💪', type: 'Kracht', sub: 'Squat, push-up, plank, lunges — 3 rondes', active: true },
+        { day: 'Wo', emoji: '😴', type: 'Rust', sub: 'Actief herstel — stretch 7 min', active: false },
+        { day: 'Do', emoji: '🏃', type: 'Interval lopen', sub: 'Zelfde als maandag', active: true },
+        { day: 'Vr', emoji: '💪', type: 'Kracht', sub: 'Mountain climber, hip bridge, core', active: true },
+        { day: 'Za', emoji: '🚶', type: 'Lange wandeling', sub: '40–50 min', active: false },
+        { day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Volledig herstel', active: false },
+      ]
+    },
+    w4: {
+      label: 'Maand 4+',
+      days: [
+        { day: 'Ma', emoji: '🏃', type: 'Lopen', sub: '25–35 min continu, doel: 10 min/km', active: true },
+        { day: 'Di', emoji: '💪', type: 'Kracht', sub: 'Burpees, squat, push-up progressie, core', active: true },
+        { day: 'Wo', emoji: '🏃', type: 'Shuttle run', sub: 'Politie-specifieke snelheid & behendigheid', active: true },
+        { day: 'Do', emoji: '😴', type: 'Rust', sub: 'Of mobiliteit — 10 min', active: false },
+        { day: 'Vr', emoji: '💪', type: 'Kracht', sub: 'Volledige kracht + pull-up progressie', active: true },
+        { day: 'Za', emoji: '🏃', type: 'Lange loop', sub: '35–45 min aan rustig tempo', active: true },
+        { day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Volledig herstel', active: false },
+      ]
+    }
+  };
+
+  function renderWeekGrid(key) {
+    const schema = weekSchemas[key];
+    const grid = document.getElementById('week-grid');
+    document.getElementById('schema-maand').textContent = schema.label;
+    grid.innerHTML = schema.days.map(d => `
+      <div class="day-card ${d.active ? 'active-day' : 'rest'}">
+        <div class="day-label">${d.day}</div>
+        <div class="day-emoji">${d.emoji}</div>
+        <div style="flex:1">
+          <div class="day-type">${d.type}</div>
+          <div class="day-sub">${d.sub}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
   function show(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -793,6 +834,7 @@
     document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).style.display = 'block';
     btn.classList.add('active');
+    renderWeekGrid(id);
   }
 
   const msgs = [
@@ -817,6 +859,9 @@
     scoreMsg.textContent = msgs[total];
     scoreNum.style.color = total >= 5 ? 'var(--green)' : total >= 3 ? 'var(--accent)' : 'var(--muted)';
   }
+
+  // Init week grid on load
+  renderWeekGrid('w1');
 </script>
 
 </body>
