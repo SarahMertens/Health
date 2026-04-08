@@ -411,6 +411,7 @@
 <div class="tabs">
   <button class="tab active" onclick="show('mindset')">💭 Mindset</button>
   <button class="tab" onclick="show('beweging')">🏃 Beweging</button>
+  <button class="tab" onclick="show('schema')">📋 Vast Schema</button>
   <button class="tab" onclick="show('eten')">🥗 Eten</button>
   <button class="tab" onclick="show('pcos')">🩺 PCOS</button>
   <button class="tab" onclick="show('dagcheck')">✅ Dagcheck</button>
@@ -463,8 +464,8 @@
   <div id="beweging" class="section">
 
     <div class="week-selector">
-      <button class="week-btn active" onclick="showWorkout('w1', this)">Maand 1</button>
-      <button class="week-btn" onclick="showWorkout('w2', this)">Maand 2</button>
+      <button class="week-btn" onclick="showWorkout('w1', this)">Maand 1</button>
+      <button class="week-btn active" onclick="showWorkout('w2', this)">Maand 2</button>
       <button class="week-btn" onclick="showWorkout('w3', this)">Maand 3</button>
       <button class="week-btn" onclick="showWorkout('w4', this)">Maand 4+</button>
     </div>
@@ -541,6 +542,232 @@
         <div class="workout-detail">Shuttle run oefening · Sprinten korte afstand · Hinderniscircuit nabootsen. Zie "Politie" tab voor exacte normen.</div>
       </div>
     </div>
+  </div>
+
+  <!-- VAST SCHEMA -->
+  <div id="schema" class="section">
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💡</span> Hoe werkt dit schema?</div>
+      <p>Je hebt <span class="highlight">5 trainingen per week</span> — 3 loopdagen en 2 krachtdagen. Omdat je werk wisselend is, kies je zelf welke dag welke training valt. De volgorde telt wel: nooit 2 zware loopdagen na elkaar.</p>
+    </div>
+
+    <div class="card" style="background: rgba(232,197,71,0.06); border-color: rgba(232,197,71,0.2);">
+      <div class="card-title" style="font-size:14px;">📊 Weekoverzicht</div>
+      <div class="week-grid" style="margin-top:10px">
+        <div class="day-card active-day"><div class="day-label">Dag 1</div><div class="day-emoji">🏃</div><div><div class="day-type">Tempo lopen</div><div class="day-sub">35–40 min continu</div></div></div>
+        <div class="day-card active-day"><div class="day-label">Dag 2</div><div class="day-emoji">💪</div><div><div class="day-type">Kracht A</div><div class="day-sub">Onderkant + core</div></div></div>
+        <div class="day-card active-day"><div class="day-label">Dag 3</div><div class="day-emoji">⚡</div><div><div class="day-type">Interval lopen</div><div class="day-sub">Snelheid + politieproef</div></div></div>
+        <div class="day-card rest"><div class="day-label">Dag 4</div><div class="day-emoji">😴</div><div><div class="day-type">Rust</div><div class="day-sub">Actief herstel</div></div></div>
+        <div class="day-card active-day"><div class="day-label">Dag 5</div><div class="day-emoji">🏃</div><div><div class="day-type">Lange duurloop</div><div class="day-sub">45–55 min rustig</div></div></div>
+        <div class="day-card active-day"><div class="day-label">Dag 6</div><div class="day-emoji">💪</div><div><div class="day-type">Kracht B</div><div class="day-sub">Bovenkant + explosief</div></div></div>
+        <div class="day-card rest"><div class="day-label">Dag 7</div><div class="day-emoji">😴</div><div><div class="day-type">Rust</div><div class="day-sub">Volledig herstel</div></div></div>
+      </div>
+    </div>
+
+    <div class="week-selector" style="margin-bottom:0">
+      <button class="week-btn active" onclick="showDagtype('tempo', this)">🏃 Tempo lopen</button>
+      <button class="week-btn" onclick="showDagtype('interval', this)">⚡ Interval</button>
+      <button class="week-btn" onclick="showDagtype('duur', this)">🌿 Duurloop</button>
+      <button class="week-btn" onclick="showDagtype('krachtA', this)">💪 Kracht A</button>
+      <button class="week-btn" onclick="showDagtype('krachtB', this)">💪 Kracht B</button>
+      <button class="week-btn" onclick="showDagtype('herstel', this)">😴 Rustdag</button>
+    </div>
+
+    <!-- TEMPO LOPEN -->
+    <div id="dagtype-tempo">
+      <h3>🏃 Dag 1 — Tempo lopen (45 min)</h3>
+      <div class="card" style="background:rgba(76,175,135,0.08); border-color:rgba(76,175,135,0.2)">
+        <p style="font-size:13px">Doel: <span class="highlight">comfortabel hard lopen</span> — je kan nog net een zin zeggen maar niet makkelijk praten. Dit bouwt je basistempo op voor de Cooper test.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⏱️ Warm-up — 7 min</div>
+        <div class="workout-detail">3 min stevig wandelen → leg swings 10x per been → heup cirkels 10x → high knees 30 sec → butt kicks 30 sec → 2 min licht joggen</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🏃 Tempolopen — 30 min continu</div>
+        <div class="workout-detail">
+          <strong style="color:white">Tempo: ~9–10 min/km (comfortabel moeilijk)</strong><br>
+          Loop 30 min aan één stuk op dit tempo. Voelt het te makkelijk? Ga iets sneller. Te zwaar? Iets trager — maar niet stoppen.<br>
+          <em style="color:var(--muted)">Elke week probeer je 1–2 min langer te lopen of iets sneller te gaan.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Cool-down — 8 min</div>
+        <div class="workout-detail">3 min wandelen → hamstring stretch 1 min/been → kuitstretch → heupflexor 1 min/kant → rug rotatie → diepe ademhaling</div>
+      </div>
+    </div>
+
+    <!-- INTERVAL -->
+    <div id="dagtype-interval" style="display:none">
+      <h3>⚡ Dag 3 — Intervaltraining (50 min)</h3>
+      <div class="card" style="background:rgba(232,197,71,0.06); border-color:rgba(232,197,71,0.2)">
+        <p style="font-size:13px">Doel: <span class="highlight">snelheid en explosiviteit</span> opbouwen. Dit is de training die je Cooper test en shuttle run doet slagen. Zwaar maar effectief.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⏱️ Warm-up — 10 min</div>
+        <div class="workout-detail">5 min licht joggen → dynamisch strekken → 4× 20m versnelling (opbouw naar 80% snelheid) → 1 min rust</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⚡ Interval blok A — Shuttle run (15 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">Markeer 20m (bijv. in een park of straat)</strong><br>
+          Sprint 20m heen en terug = 1 herhaling<br>
+          6 herhalingen → 90 sec rust · Herhaal 4 rondes<br>
+          <em style="color:var(--muted)">Dit is exact de politieproef. Raak de grond bij elke keerbeweging.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⚡ Interval blok B — Loopintervallen (15 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">400m zo snel mogelijk (of 2 min vollgas) → 2 min wandelen</strong><br>
+          Herhaal 5×<br>
+          <em style="color:var(--muted)">Sneller dan je comfortabele tempo — dit is hard werken.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Cool-down — 10 min</div>
+        <div class="workout-detail">5 min wandelen → volledige beenstretch · quad, hamstring, kuit, heupflexor · Nek & rug 3 min</div>
+      </div>
+    </div>
+
+    <!-- DUURLOOP -->
+    <div id="dagtype-duur" style="display:none">
+      <h3>🌿 Dag 5 — Lange duurloop (60 min)</h3>
+      <div class="card" style="background:rgba(27,79,138,0.12); border-color:rgba(27,79,138,0.3)">
+        <p style="font-size:13px">Doel: <span class="highlight">uithoudingsvermogen</span> opbouwen. Rustig tempo — je moet comfortabel een gesprek kunnen voeren. Dit is geen wedstrijd.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⏱️ Warm-up — 5 min wandelen</div>
+        <div class="workout-detail">Rustig opstarten. Geen stretchen voor de duurloop — gewoon langzaam beginnen.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🌿 Duurloop — 45–50 min continu</div>
+        <div class="workout-detail">
+          <strong style="color:white">Tempo: ~11–12 min/km (rustig, conversatietempo)</strong><br>
+          Langzamer dan je denkt nodig te hebben. Het gaat om de tijd op de benen, niet om snelheid.<br>
+          <em style="color:var(--muted)">Elke week 5 min langer — doel over 2 maanden: 60 min aan één stuk.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Cool-down — 10 min</div>
+        <div class="workout-detail">5 min wandelen → grondige stretch: hamstring, quad, kuit, heupflexor, rug · Neem de tijd, je lichaam heeft dit verdiend.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🌊 Springtouw bonus (optioneel, +10 min)</div>
+        <div class="workout-detail">Als je nog energie hebt: 5× 1 min springen / 30 sec rust. Bouwt je aerobe capaciteit verder op.</div>
+      </div>
+    </div>
+
+    <!-- KRACHT A -->
+    <div id="dagtype-krachtA" style="display:none">
+      <h3>💪 Dag 2 — Kracht A: Onderkant + Core (55 min)</h3>
+      <div class="card" style="background:rgba(76,175,135,0.08); border-color:rgba(76,175,135,0.2)">
+        <p style="font-size:13px">Doel: <span class="highlight">benen en core versterken</span> — de basis van lopen én de politieproef. Sterke benen = sneller lopen. Sterke core = minder rugpijn.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⏱️ Warm-up — 7 min</div>
+        <div class="workout-detail">2 min springtouw rustig → heup cirkels 10x → been slingeren 10x/kant → glute bridge 10x → world's greatest stretch 5x/kant</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🦵 Blok 1 — Beenkracht (20 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">4 rondes:</strong><br>
+          Squat 15× · Bulgaarse split squat 10×/been · Lateral lunge 12×/kant · Glute bridge 20×<br>
+          <em style="color:var(--muted)">Rust 60 sec tussen rondes. Langzaam omlaag (3 sec), explosief omhoog.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🔥 Blok 2 — Core circuit (15 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">3 rondes, 45 sec per oefening, 15 sec rust:</strong><br>
+          Plank · Dead bug · Bicycle crunch · Reverse crunch · Side plank links · Side plank rechts<br>
+          <em style="color:var(--muted)">Rust 60 sec tussen rondes.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Cool-down + nek/rug — 8 min</div>
+        <div class="workout-detail">Pigeon pose 1 min/kant · Hamstring stretch · Kat-koe 1 min · Thoracale rotatie · Nekstretch — dit verlicht je rugklachten structureel</div>
+      </div>
+    </div>
+
+    <!-- KRACHT B -->
+    <div id="dagtype-krachtB" style="display:none">
+      <h3>💪 Dag 6 — Kracht B: Bovenkant + Explosief (55 min)</h3>
+      <div class="card" style="background:rgba(232,197,71,0.06); border-color:rgba(232,197,71,0.2)">
+        <p style="font-size:13px">Doel: <span class="highlight">bovenlichaam en explosieve kracht</span> — voor de push-ups en sit-ups van de politieproef, en voor het springtouw en sprints.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⏱️ Warm-up — 7 min</div>
+        <div class="workout-detail">2 min springtouw → arm cirkels 15x → schouder rotatie · band pull-apart met handdoek · incline push-up 10× · inchworm 5×</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💥 Blok 1 — Explosieve kracht (15 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">4 rondes:</strong><br>
+          Burpee 8× · Jump squat 10× · Explosive push-up (zo explosief mogelijk) 8× · Mountain climber 20×<br>
+          <em style="color:var(--muted)">Rust 90 sec tussen rondes. Dit is de zwaarste 15 min van je week.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">💪 Blok 2 — Bovenlichaam (15 min)</div>
+        <div class="workout-detail">
+          <strong style="color:white">3 rondes:</strong><br>
+          Push-up 15× · Dip op stoel 12× · Handdoek row (schuine deur) 12× · Pike push-up 10× · Tricep push-up 10×<br>
+          <em style="color:var(--muted)">Rust 60 sec tussen rondes.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">⚡ Blok 3 — Springtouw finisher (10 min)</div>
+        <div class="workout-detail">
+          30 sec vollgas springen → 30 sec rust · 10 rondes<br>
+          <em style="color:var(--muted)">Probeer het tempo op te drijven elke ronde. Dit traint je hart én je coördinatie.</em>
+        </div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Cool-down — 8 min</div>
+        <div class="workout-detail">Schouder cross-body stretch · Tricep stretch · Nekstretch alle richtingen · Kat-koe · Diepe ademhaling 2 min</div>
+      </div>
+    </div>
+
+    <!-- HERSTEL -->
+    <div id="dagtype-herstel" style="display:none">
+      <h3>😴 Rustdag — Actief herstel (20 min)</h3>
+      <div class="card" style="background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.06)">
+        <p style="font-size:13px">Rustdagen zijn <span class="highlight">geen verloren dagen</span>. Spieren groeien en herstellen tijdens rust. Maar volledig stilzitten vertraagt het herstel — lichte beweging helpt.</p>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🚶 Rustige wandeling — 15 min</div>
+        <div class="workout-detail">Geen gsm, geen muziek als je kan. Gewoon lopen, ademen, hoofd leegmaken. Goed voor PCOS-stressregulatie.</div>
+      </div>
+      <div class="workout-block">
+        <div class="workout-name">🧘 Volledige mobiliteitsroutine — 15 min</div>
+        <div class="workout-detail">
+          <strong style="color:white">Nek & rug (verplicht bij jouw klachten):</strong><br>
+          Kinborst stretch 1 min · Thoracale rotatie 1 min/kant · Kat-koe 2 min · Nek zijwaarts 45 sec/kant<br><br>
+          <strong style="color:white">Benen:</strong><br>
+          Heupflexor stretch 2 min/kant · Pigeon pose 1 min/kant · Hamstring stretch 1 min/been · Kuitstretch
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <p style="font-size:13px; color:var(--accent)">⚠️ Max 2 rustdagen per week. Plan ze niet na elkaar — spreid ze over de week.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px">
+      <div class="card-title"><span class="icon">📈</span> Progressie bijhouden</div>
+      <ul class="list">
+        <li><span class="dot"></span><span class="highlight">Tempo lopen:</span> elke 2 weken 2 min langer of 30 sec/km sneller</li>
+        <li><span class="dot"></span><span class="highlight">Duurloop:</span> elke week 5 min langer — doel: 60 min over 2 maanden</li>
+        <li><span class="dot"></span><span class="highlight">Interval:</span> elke 2 weken 1 extra ronde toevoegen</li>
+        <li><span class="dot"></span><span class="highlight">Kracht:</span> elke week 1–2 herhalingen meer per oefening</li>
+      </ul>
+    </div>
+
+    <div class="quote-block">
+      <div class="quote-text">"Na 4 maanden basis heb je het recht om hard te trainen. Gebruik het."</div>
+    </div>
+
   </div>
 
   <!-- ETEN -->
@@ -772,10 +999,10 @@
         { day: 'Ma', emoji: '💪', type: 'Thuisworkout', sub: '20 min — 3 rondes', active: true },
         { day: 'Di', emoji: '🚶', type: 'Wandelen', sub: '30 min of fietstocht', active: false },
         { day: 'Wo', emoji: '😴', type: 'Rust', sub: 'Volledig herstel', active: false },
-{ day: 'Do', emoji: '💪', type: 'Thuisworkout', sub: '20 min — squat, push-up, hip bridge, plank', active: true },
+        { day: 'Do', emoji: '💪', type: 'Thuisworkout', sub: '20 min — squat, push-up, hip bridge, plank', active: true },
         { day: 'Vr', emoji: '🚶', type: 'Wandelen', sub: '30 min stevig', active: false },
-        { day: 'Za', emoji: '🏃', type: 'Interval', sub: '1 min sneller / 2 min stappen — 8x', active: true },
-{ day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Of lichte stretch', active: false },
+        { day: 'Za', emoji: '🏃', type: 'Interval', sub: '30s min sneller / 1 min stappen — 8x', active: true },
+        { day: 'Zo', emoji: '😴', type: 'Rust', sub: 'Of lichte stretch', active: false },
       ]
     },
     w3: {
@@ -818,6 +1045,16 @@
         </div>
       </div>
     `).join('');
+  }
+
+  function showDagtype(id, btn) {
+    ['tempo','interval','duur','krachtA','krachtB','herstel'].forEach(t => {
+      const el = document.getElementById('dagtype-' + t);
+      if (el) el.style.display = 'none';
+    });
+    document.querySelectorAll('#schema .week-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('dagtype-' + id).style.display = 'block';
+    btn.classList.add('active');
   }
 
   function show(id) {
