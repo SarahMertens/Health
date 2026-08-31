@@ -181,23 +181,20 @@ td{color:#d2deea}
 .section.active {
   display: block;
 }
-/* Inhoud uit de losse documenten blijft binnen dezelfde hoofdpagina. */
+
+/* Losse documenten worden in dezelfde pagina geladen, zonder iframe. */
 .embedded-content{
   max-width:860px;
   margin:0 auto;
   padding:8px 0 70px;
 }
-.content-frame{
-  display:block;
+.content-container{
   width:100%;
-  height:620px; /* startwaarde, wordt meteen door script.js aangepast aan de echte inhoud */
-  border:0;
-  background:var(--navy);
-  overflow:hidden; /* voorkomt een eigen scrollbalk binnen de iframe */
 }
-button.tab{
-  cursor:pointer;
+.content-container > .content{
+  padding-top:28px;
 }
+button.tab{cursor:pointer}
 @media(max-width:699px){
   .embedded-content{padding-top:4px}
 }

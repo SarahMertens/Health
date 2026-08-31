@@ -1,69 +1,70 @@
 const tabs = document.querySelectorAll('.tab');
-const frame = document.getElementById('content-frame');
+const container = document.getElementById('content-container');
+let currentPage = 'schema/index.html';
 
-function setActiveTab(clickedTab) {
-  tabs.forEach(tab => tab.classList.remove('active'));
-  clickedTab.classList.add('active');
+function setActiveTabByPage(page) {
+  tabs.forEach(tab => {
+    const tabPage = tab.dataset.page || '';
+    const active = page.includes('/schema/') || page.endsWith('schema/index.html')
+      ? tabPage === 'schema/index.html'
+      : page.includes('/recepten/') || page.endsWith('recepten/index.html')
+        ? tabPage === 'recepten/index.html'
+        : page.includes('/boodschappen/') || page.endsWith('boodschappen/index.html')
+          ? tabPage === 'boodschappen/index.html'
+          : false;
+    tab.classList.toggle('active', active);
+  });
 }
 
-// Zet de hoogte van de iframe gelijk aan de echte inhoud,
-// zodat er nooit een aparte scrollbalk binnen de iframe ontstaat.
-function resizeFrame() {
+async function loadPage(page, scrollToTabs = false) {
   try {
-    const doc = frame.contentDocument || frame.contentWindow.document;
-    if (!doc || !doc.documentElement) return;
+    const response = await fetch(page, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Kon ${page} niet laden`);
 
-    const height = Math.max(
-      doc.documentElement.scrollHeight,
-      doc.body ? doc.body.scrollHeight : 0
-    );
+    const html = await response.text();
+    const parsed = new DOMParser().parseFromString(html, 'text/html');
+    const source = parsed.querySelector('.content') || parsed.body;
 
-    // Alleen aanpassen bij een echt verschil, dat voorkomt
-    // onnodige reflow-lussen die de pagina steeds langer maken.
-    if (Math.abs(parseInt(frame.style.height, 10) - height) > 2) {
-      frame.style.height = height + 'px';
+    container.innerHTML = source.innerHTML;
+    currentPage = new URL(page, window.location.href).href;
+    setActiveTabByPage(currentPage);
+    bindLoadedLinks();
+
+    if (scrollToTabs) {
+      document.querySelector('.tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   } catch (error) {
-    // Cross-origin of nog niet geladen: veilige vaste hoogte.
-    frame.style.height = '620px';
+    container.innerHTML = `
+      <div class="content">
+        <div class="card">
+          <div class="card-title">Pagina kon niet geladen worden</div>
+          <p>Open deze website via je webserver/GitHub Pages. De inhoud wordt nu zonder iframe geladen zodat de pagina niet meer oneindig kan groeien.</p>
+        </div>
+      </div>`;
+    console.error(error);
   }
 }
 
-function openMainSection(tab) {
-  const page = tab.dataset.page;
-  if (!page) return;
+function bindLoadedLinks() {
+  container.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
 
-  setActiveTab(tab);
-  frame.src = page;
+    const target = new URL(href, currentPage);
+    if (target.origin !== window.location.origin) return;
 
-  window.scrollTo({
-    top: document.querySelector('.tabs').offsetTop - 10,
-    behavior: 'smooth'
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      loadPage(target.href, true);
+    });
   });
 }
 
 tabs.forEach(tab => {
-  tab.addEventListener('click', () => openMainSection(tab));
+  tab.addEventListener('click', () => {
+    const page = tab.dataset.page;
+    if (page) loadPage(page, true);
+  });
 });
 
-frame.addEventListener('load', () => {
-  resizeFrame();
-
-  try {
-    const doc = frame.contentDocument || frame.contentWindow.document;
-
-    // Als er binnen schema/recepten geklikt wordt (bv. checkboxes),
-    // opnieuw meten voor het geval de inhoud van hoogte verandert.
-    doc.addEventListener('click', () => {
-      setTimeout(resizeFrame, 60);
-      setTimeout(resizeFrame, 250);
-    });
-
-    if ('ResizeObserver' in window && doc.body) {
-      const observer = new ResizeObserver(() => resizeFrame());
-      observer.observe(doc.body);
-    }
-  } catch (error) {
-    // Niets doen, de vaste fallbackhoogte blijft bruikbaar.
-  }
-});
+loadPage(currentPage, false);
