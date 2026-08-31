@@ -190,11 +190,10 @@ td{color:#d2deea}
 .content-frame{
   display:block;
   width:100%;
-  height:75vh;
-  min-height:620px;
-  max-height:900px;
+  height:620px; /* startwaarde, wordt meteen door script.js aangepast aan de echte inhoud */
   border:0;
   background:var(--navy);
+  overflow:hidden; /* voorkomt een eigen scrollbalk binnen de iframe */
 }
 button.tab{
   cursor:pointer;
