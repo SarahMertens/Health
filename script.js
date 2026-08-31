@@ -13,11 +13,7 @@ function resizeFrame() {
     const doc = frame.contentDocument || frame.contentWindow.document;
     if (!doc || !doc.documentElement) return;
 
-    // De iframe zelf mag nooit een eigen scrollbalk tonen:
-    // wij zetten de hoogte toch al gelijk aan de echte inhoud.
-    doc.documentElement.style.overflow = 'hidden';
-    if (doc.body) doc.body.style.overflow = 'hidden';
-
+    
     const height = Math.max(
       doc.documentElement.scrollHeight,
       doc.body ? doc.body.scrollHeight : 0
