@@ -190,7 +190,7 @@ td{color:#d2deea}
 .content-frame{
   display:block;
   width:100%;
-  min-height:900px;
+  height:0;
   border:0;
   background:var(--navy);
 }

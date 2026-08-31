@@ -8,50 +8,70 @@ function setActiveTab(clickedTab) {
 
 function openMainSection(tab) {
   const page = tab.dataset.page;
+
   if (!page) return;
 
   setActiveTab(tab);
+
+  // Eerst resetten zodat de nieuwe pagina
+  // geen oude iframehoogte overneemt
+  frame.style.height = '0px';
+
   frame.src = page;
-  window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 10, behavior: 'smooth' });
+
+  window.scrollTo({
+    top: document.querySelector('.tabs').offsetTop - 10,
+    behavior: 'smooth'
+  });
 }
 
 tabs.forEach(tab => {
-  tab.addEventListener('click', () => openMainSection(tab));
+  tab.addEventListener('click', () => {
+    openMainSection(tab);
+  });
 });
+
 
 function resizeFrame() {
   try {
-    const doc = frame.contentDocument || frame.contentWindow.document;
-    const height = Math.max(
-      doc.body ? doc.body.scrollHeight : 0,
-      doc.documentElement ? doc.documentElement.scrollHeight : 0
-    );
+    const doc =
+      frame.contentDocument ||
+      frame.contentWindow.document;
 
-    if (height > 0) {
-      frame.style.height = `${height + 8}px`;
-    }
+    if (!doc.body) return;
+
+    // Eerst de hoogte resetten
+    frame.style.height = '0px';
+
+    // Alleen de echte body-inhoud meten
+    const height = doc.body.offsetHeight;
+
+    frame.style.height = `${height}px`;
+
   } catch (error) {
-    frame.style.height = '1200px';
+    frame.style.height = '900px';
   }
 }
 
+
 frame.addEventListener('load', () => {
+
   resizeFrame();
 
   try {
-    const doc = frame.contentDocument || frame.contentWindow.document;
+    const doc =
+      frame.contentDocument ||
+      frame.contentWindow.document;
 
-    // Blijf op de hoofdwebsite, ook wanneer je binnen schema/recepten klikt.
+    // Na klikken binnen schema/recepten
+    // opnieuw de correcte hoogte meten
     doc.addEventListener('click', () => {
-      setTimeout(resizeFrame, 60);
-      setTimeout(resizeFrame, 250);
+      setTimeout(resizeFrame, 50);
+      setTimeout(resizeFrame, 200);
     });
 
-    if ('ResizeObserver' in window && doc.body) {
-      const observer = new ResizeObserver(resizeFrame);
-      observer.observe(doc.body);
-    }
   } catch (error) {
-    // De inhoud blijft bruikbaar met de vaste fallbackhoogte.
+    // niets doen
   }
+
 });
