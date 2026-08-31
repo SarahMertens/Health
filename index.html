@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mijn vaste plan — lopen & voeding</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mijn vaste plan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="hero">
-  <div class="badge">Vast plan — geen marathon nodig</div>
-  <h1>STERKER. SNELLER.<br><span>VOL TE HOUDEN.</span></h1>
-  <p>Een vast weekschema dat je jarenlang kunt blijven gebruiken: 3 looptrainingen, 2 krachttrainingen, voldoende herstel en simpele kotmaaltijden.</p>
-</div>
+  <header class="hero">
+    <div class="badge">Vast plan — geen marathon nodig</div>
+    <h1>STERKER. SNELLER.<br><span>VOL TE HOUDEN.</span></h1>
+    <p>Je vaste schema, recepten en boodschappenlijst op één pagina.</p>
+  </header>
 
-<div class="tabs">
-  <a class="tab active" href="schema/index.html">🏃 Vast schema</a>
-  <a class="tab" href="recepten/index.html">🥗 Recepten</a>
-  <a class="tab" href="boodschappen/index.html">🛒 Boodschappen</a>
-</div>
+  <nav class="tabs" aria-label="Hoofdnavigatie">
+    <button class="tab active" type="button" data-page="schema/index.html">🏃 Vast schema</button>
+    <button class="tab" type="button" data-page="recepten/index.html">🥗 Recepten</button>
+    <button class="tab" type="button" data-page="boodschappen/index.html">🛒 Boodschappen</button>
+  </nav>
 
-<div class="content">
-  <div class="card">
-    <div class="card-title">Mijn vaste plan</div>
-    <p>Alles staat nu opgesplitst in aparte documenten. Kies hierboven wat je wilt bekijken.</p>
-  </div>
-</div>
+  <main class="embedded-content">
+    <iframe
+      id="content-frame"
+      class="content-frame"
+      src="schema/index.html"
+      title="Mijn plan"
+      loading="eager">
+    </iframe>
+  </main>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

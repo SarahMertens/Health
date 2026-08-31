@@ -2,10 +2,16 @@ MIJN PLAN — BESTANDSSTRUCTUUR
 
 Open index.html om te starten.
 
+BELANGRIJK
+- Je blijft altijd op de hoofdwebsite (index.html).
+- De tabs bovenaan laden de bestaande losse documenten binnen diezelfde pagina.
+- De losse documenten in schema/, recepten/ en boodschappen/ blijven dus behouden.
+- Als je op een training of recept klikt, opent die inhoud in hetzelfde vlak onder de tabs.
+
 Bestanden:
-- index.html
-- style.css
-- script.js
+- index.html          = hoofdpagina + tabs
+- style.css           = alle opmaak / classes
+- script.js           = tabwisseling + ingesloten inhoud automatisch op hoogte zetten
 
 schema/
 - index.html

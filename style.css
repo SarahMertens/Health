@@ -173,3 +173,30 @@ td{color:#d2deea}
   .week-grid{grid-template-columns:1fr 1fr}
   .week-grid .day-card:last-child{grid-column:1/-1}
 }
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+/* Inhoud uit de losse documenten blijft binnen dezelfde hoofdpagina. */
+.embedded-content{
+  max-width:860px;
+  margin:0 auto;
+  padding:8px 0 70px;
+}
+.content-frame{
+  display:block;
+  width:100%;
+  min-height:900px;
+  border:0;
+  background:var(--navy);
+}
+button.tab{
+  cursor:pointer;
+}
+@media(max-width:699px){
+  .embedded-content{padding-top:4px}
+}
