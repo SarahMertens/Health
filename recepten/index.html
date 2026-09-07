@@ -1,47 +1,416 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recepten</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recepten</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
-<div class="content">
 
-<div class="card">
-  <div class="card-title">🥗 ETEN OP KOT</div>
-  <p>Richtlijn: ongeveer <b>1600 kcal per dag</b> en grofweg <b>90–110 g eiwit</b>.</p>
-  <p>Met je 16:8-ritme kun je één grote middagmaaltijd nemen en 's avonds een stevige shake.</p>
-</div>
-<h2>7-daags vast menu</h2>
-<div class="card">
-<table>
-<thead><tr><th>Dag</th><th>Middag</th><th>Avond</th></tr></thead>
-<tbody>
-<tr><td>Ma</td><td>Kip-rijst bowl</td><td>Banaan-haver proteïneshake</td></tr>
-<tr><td>Di</td><td>Gewone wraps met kip</td><td>Aardbei-skyr shake</td></tr>
-<tr><td>Wo</td><td>Pasta bolognese</td><td>Banaan-haver proteïneshake</td></tr>
-<tr><td>Do</td><td>Aardappelen + kip + groenten</td><td>Chocolade-banaan shake</td></tr>
-<tr><td>Vr</td><td>Kip-rijst bowl</td><td>Banaan-haver proteïneshake</td></tr>
-<tr><td>Za</td><td>Gewone wraps met mager gehakt</td><td>Aardbei-skyr shake</td></tr>
-<tr><td>Zo</td><td>Kip-pasta</td><td>Shake naar keuze</td></tr>
-</tbody>
-</table>
-</div>
-<h2>Recepten & shakes</h2>
-<div class="recipe-grid"><a class="recipe" href="kip-rijst.html"><h3>🍚 Kip-rijst bowl</h3><div class="meta">± 850–950 kcal · ± 50–60 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="wraps-kip.html"><h3>🌯 Gewone wraps met kip</h3><div class="meta">± 850–950 kcal · ± 50 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="bolognese.html"><h3>🍝 Luie bolognese</h3><div class="meta">± 850–950 kcal · ± 45–55 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="aardappelen-kip.html"><h3>🥔 Aardappelen + kip</h3><div class="meta">± 800–900 kcal · ± 50–60 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="kip-pasta.html"><h3>🍝 Kip-pasta</h3><div class="meta">± 850–950 kcal · ± 50–60 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="wraps-gehakt.html"><h3>🌯 Wraps met mager gehakt</h3><div class="meta">± 850–950 kcal · ± 45–55 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="shake-banaan-haver.html"><h3>🥤 Banaan-haver shake</h3><div class="meta">± 450–550 kcal · ± 40–45 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="shake-aardbei-skyr.html"><h3>🍓 Aardbei-skyr shake</h3><div class="meta">± 350–450 kcal · ± 40 g eiwit</div><p>Klik om het volledige recept te openen.</p></a>
-<a class="recipe" href="shake-chocolade-banaan.html"><h3>🍫 Chocolade-banaan shake</h3><div class="meta">± 450–550 kcal · ± 40–45 g eiwit</div><p>Klik om het volledige recept te openen.</p></a></div>
-<div class="note"><b>Praktisch:</b> 1600 kcal hoeft niet exact te zijn. Een dag 1550 en een andere dag 1650 is prima.</div>
+<div class="page-content">
+
+  <div class="card">
+    <div class="card-title">🥗 WEEKMENU</div>
+
+    <p>
+      Simpel weekmenu met zo weinig mogelijk koken.
+      Van maandag tot vrijdagmiddag eet je op kot.
+      Vrijdagavond tot zondag ben je thuis.
+    </p>
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- WEEKMENU -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Dag</th>
+          <th>Middag</th>
+          <th>Avond</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td><strong>Ma</strong></td>
+          <td>
+            🍚 Kip + rijst + diepvries wokgroenten
+          </td>
+          <td>
+            🥤 Banaan-haver shake
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Di</strong></td>
+          <td>
+            🌯 Wraps met kip
+          </td>
+          <td>
+            🥤 Aardbei-skyr shake
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Wo</strong></td>
+          <td>
+            🍝 Bolognese
+          </td>
+          <td>
+            🥤 Banaan-haver shake
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Do</strong></td>
+          <td>
+            🥔 Kip + aardappelen + diepvriesbroccoli
+          </td>
+          <td>
+            🥤 Chocolade-banaan shake
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Vr</strong></td>
+          <td>
+            🍚 Kip + rijst + diepvries wokgroenten
+            <strong>— OP KOT</strong>
+          </td>
+          <td>
+            🏠 Eten thuis
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Za</strong></td>
+          <td>
+            🌯 Wraps met mager gehakt
+            <strong>— THUIS</strong>
+          </td>
+          <td>
+            🥤 Aardbei-skyr shake
+            <strong>— THUIS</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>Zo</strong></td>
+          <td>
+            🥤 Shake
+            <strong>— THUIS</strong>
+          </td>
+          <td>
+            👵 Maaltijd van oma
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- KOT -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      🏠 MAANDAG → VRIJDAGMIDDAG OP KOT
+    </div>
+
+    <p>
+      Je koopt maandag wat je nodig hebt voor
+      <strong>maandag tot en met vrijdagmiddag</strong>.
+    </p>
+
+    <p>
+      Vrijdagmiddag eet je je laatste maaltijd op kot.
+      Vrijdagavond eet je thuis.
+    </p>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- MEAL PREP -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      🍳 ZO WEINIG MOGELIJK KOKEN
+    </div>
+
+    <h3>Maandag</h3>
+
+    <p>
+      Doe je boodschappen en maak meteen meerdere
+      porties kip klaar.
+    </p>
+
+    <p>
+      Maak ook genoeg rijst voor je
+      <strong>kip-rijstmaaltijden</strong>.
+    </p>
+
+    <p>
+      Gebruik daarbij
+      <strong>diepvries wokgroenten</strong>.
+      Die kunnen rechtstreeks vanuit de diepvries in de pan.
+    </p>
+
+
+    <h3>Woensdag</h3>
+
+    <p>
+      Maak één pan
+      <strong>bolognese</strong>.
+    </p>
+
+
+    <h3>Donderdag</h3>
+
+    <p>
+      Kip + aardappelen +
+      <strong>diepvriesbroccoli</strong>.
+    </p>
+
+    <p>
+      De broccoli kan rechtstreeks vanuit de diepvries
+      in de microgolf.
+    </p>
+
+
+    <h3>Vrijdag</h3>
+
+    <p>
+      's Middags eet je nog
+      <strong>kip + rijst + wokgroenten op kot</strong>.
+    </p>
+
+    <p>
+      Daarna vertrek je naar huis.
+      's Avonds eet je thuis.
+    </p>
+
+
+    <h3>Zondag</h3>
+
+    <p>
+      's Middags drink je een
+      <strong>shake</strong>.
+    </p>
+
+    <p>
+      's Avonds eet je bij
+      <strong>oma</strong>.
+    </p>
+
+    <p>
+      Daarna vertrek je terug naar kot.
+      Je hoeft dus geen klaargemaakte maaltijd
+      1u30 mee te nemen.
+    </p>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- RECEPTEN -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      🍚 KIP + RIJST + WOKGROENTEN
+    </div>
+
+    <p>
+      <strong>Per maaltijd:</strong>
+    </p>
+
+    <p>
+      150–175 g kipfilet<br>
+      100 g droge rijst<br>
+      250–300 g diepvries wokgroenten<br>
+      Kruiden / sojasaus / chilisaus naar smaak
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      🌯 WRAPS MET KIP
+    </div>
+
+    <p>
+      <strong>Per maaltijd:</strong>
+    </p>
+
+    <p>
+      2 gewone tarwewraps<br>
+      150 g kip<br>
+      Sla<br>
+      Tomaat<br>
+      Paprika<br>
+      Maïs<br>
+      Beetje kaas<br>
+      Yoghurtsaus
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      🍝 BOLOGNESE
+    </div>
+
+    <p>
+      <strong>Per maaltijd:</strong>
+    </p>
+
+    <p>
+      100 g droge pasta<br>
+      150 g mager gehakt<br>
+      Passata / tomatensaus<br>
+      Groenten<br>
+      ± 20 g Parmezaan
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      🥔 KIP + AARDAPPELEN + BROCCOLI
+    </div>
+
+    <p>
+      <strong>Per maaltijd:</strong>
+    </p>
+
+    <p>
+      150–175 g kipfilet<br>
+      ± 400 g aardappelen<br>
+      250–300 g diepvriesbroccoli<br>
+      Kruiden naar smaak
+    </p>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- SHAKES -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      🥤 BANAAN-HAVER SHAKE
+    </div>
+
+    <p>
+      250 ml halfvolle melk<br>
+      30 g whey<br>
+      1 banaan<br>
+      150 g skyr<br>
+      30–40 g havermout<br>
+      Kaneel
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      🍓 AARDBEI-SKYR SHAKE
+    </div>
+
+    <p>
+      250 ml halfvolle melk<br>
+      30 g whey<br>
+      150 g skyr<br>
+      Diepvriesaardbeien
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      🍫 CHOCOLADE-BANAAN SHAKE
+    </div>
+
+    <p>
+      250 ml halfvolle melk<br>
+      30 g whey<br>
+      1 banaan<br>
+      150 g skyr<br>
+      30–40 g havermout<br>
+      Cacao
+    </p>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- WEEKEND -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      🏡 WEEKEND THUIS
+    </div>
+
+    <p>
+      <strong>Vrijdagavond:</strong>
+      eten thuis.
+    </p>
+
+    <p>
+      <strong>Zaterdagmiddag:</strong>
+      wraps met mager gehakt.
+    </p>
+
+    <p>
+      <strong>Zaterdagavond:</strong>
+      aardbei-skyr shake.
+    </p>
+
+    <p>
+      <strong>Zondagmiddag:</strong>
+      shake.
+    </p>
+
+    <p>
+      <strong>Zondagavond:</strong>
+      maaltijd van oma.
+    </p>
+
+  </div>
 
 </div>
+
 </body>
 </html>
